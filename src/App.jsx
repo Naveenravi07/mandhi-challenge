@@ -1,11 +1,12 @@
 import { DndContext, DragOverlay, closestCorners } from '@dnd-kit/core'
 import { useState } from 'react';
-import { todoList } from './todoList';
 import { TodoBoard } from './components/TodoBoard';
+import { todoList } from './constants/todoList';
 
 function App() {
     const [todos, setTodos] = useState(todoList);
     const [activeId, setActiveId] = useState(null);
+    const tabs = ["todo","in-progress","review","done"]
 
     const handleDragStart = (event) => {
         setActiveId(event.active.id);
@@ -22,7 +23,7 @@ function App() {
         const activeTodo = todos.find((todo) => todo.id === activeId);
         if (!activeTodo) return;
 
-        if (overId === "todo" || overId === "in-progress" || overId === "review" || overId === "done") {
+        if (tabs.includes(overId)) {
             setTodos((prevTodos) =>
                 prevTodos.map((todo) =>
                     todo.id === activeId ? { ...todo, status: overId } : todo
@@ -35,11 +36,14 @@ function App() {
         setActiveId(null);
     };
 
-    const onAssignUser = () => {
-
-    }
+    const onAssignUser = (todoId, user) => {
+        setTodos((prevTodos) =>
+            prevTodos.map((todo) =>
+                todo.id === todoId ? { ...todo, assignedTo: user } : todo
+            )
+        );
+    };
     
-
     return (
         <div className="h-screen bg-gradient-to-br from-gray-50 to-gray-100">
             <div className="h-screen flex flex-col max-w-7xl mx-auto p-8">

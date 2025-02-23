@@ -25,8 +25,8 @@ export function TodoBoard({ todos, onAssignUser }) {
                 title="Done"
                 status="done"
                 todos={todos.filter((todo) => todo.status === "done")}
-                onAssignUser={onAssignUser}
-            />
+                onAssignUser={onAssignUser}    
+                />
         </div>
     )
 }
